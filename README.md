@@ -2,6 +2,8 @@
 
 A Claude Code skill that runs OpenAI Codex CLI in full-auto mode — a lightweight, token-efficient way to delegate coding tasks to Codex directly from Claude Code.
 
+Includes an orchestrator skill that routes to specialized sub-skills.
+
 ## Install
 
 ```bash
@@ -21,13 +23,13 @@ npx skills install bidodev/codex-skill
 
 ### Subcommands
 
-| Subcommand | Description | Example |
-|------------|-------------|---------|
-| `review` | Code review — find bugs, suggest improvements | `/codex review src/auth.ts` |
-| `explain` | Explain how code works | `/codex explain src/utils/parser.js` |
-| `test` | Generate tests for a file or module | `/codex test src/services/payment.ts` |
-| `fix` | Fix a bug or issue | `/codex fix the login timeout error` |
-| *(none)* | Freeform — pass any task directly to Codex | `/codex refactor the db module` |
+| Subcommand | Skill | Description |
+|------------|-------|-------------|
+| `review` | `codex-review` | Code review — find bugs, security issues, suggest improvements |
+| `explain` | `codex-explain` | Explain how code works in detail |
+| `test` | `codex-test` | Generate comprehensive tests |
+| `fix` | `codex-fix` | Fix a bug or issue |
+| *(none)* | — | Freeform — pass any task directly to Codex |
 
 ### Examples
 
@@ -47,6 +49,28 @@ npx skills install bidodev/codex-skill
 # Freeform tasks
 /codex refactor the database module to use connection pooling
 /codex create a REST API endpoint for user registration
+```
+
+### Direct sub-skill invocation
+
+Each sub-skill can also be invoked directly:
+
+```bash
+/codex-review src/auth.ts
+/codex-explain src/utils/parser.js
+/codex-test src/services/payment.ts
+/codex-fix the login timeout error
+```
+
+## Architecture
+
+```
+skills/
+├── codex/           ← Orchestrator: parses subcommand and routes
+├── codex-review/    ← Code review via Codex
+├── codex-explain/   ← Code explanation via Codex
+├── codex-test/      ← Test generation via Codex
+└── codex-fix/       ← Bug fixing via Codex
 ```
 
 ## Why This Instead of MCP?
