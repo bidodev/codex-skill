@@ -1,22 +1,29 @@
 ---
 name: codex-fix
-description: Use OpenAI Codex to fix a bug or issue in code. Trigger on "/codex fix" or "/codex-fix".
+description: Use OpenAI Codex to fix a bug or issue in code. Triggers on "/codex fix", "/codex-fix", or natural language like "ask codex to fix", "have codex debug", "codex solve this bug", "codex repair", "let codex handle this error".
 ---
 
 # Codex Fix
 
 Delegates a bug fix task to OpenAI Codex CLI in full-auto mode.
 
-## Invocation
+## Trigger Patterns
 
+### Slash commands
 ```
 /codex fix <description|file_path>
 /codex-fix <description|file_path>
 ```
 
+### Natural language
+- "ask codex to fix the login timeout error"
+- "have codex debug the payment flow"
+- "codex solve this race condition"
+- "let codex handle this error in the worker queue"
+
 ## Workflow
 
-1. Take the target from `$ARGUMENTS` (a bug description or file path)
+1. Take the target from `$ARGUMENTS`
 2. Build the prompt: `"Fix this issue: <target>"`
 3. Execute:
    ```bash

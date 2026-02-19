@@ -2,7 +2,7 @@
 
 A Claude Code skill that runs OpenAI Codex CLI in full-auto mode — a lightweight, token-efficient way to delegate coding tasks to Codex directly from Claude Code.
 
-Includes an orchestrator skill that routes to specialized sub-skills.
+Supports both **slash commands** and **natural language**.
 
 ## Install
 
@@ -17,56 +17,42 @@ npx skills install bidodev/codex-skill
 
 ## Usage
 
-```
-/codex [subcommand] <prompt|file_path>
-```
-
-### Subcommands
-
-| Subcommand | Skill | Description |
-|------------|-------|-------------|
-| `review` | `codex-review` | Code review — find bugs, security issues, suggest improvements |
-| `explain` | `codex-explain` | Explain how code works in detail |
-| `test` | `codex-test` | Generate comprehensive tests |
-| `fix` | `codex-fix` | Fix a bug or issue |
-| *(none)* | — | Freeform — pass any task directly to Codex |
-
-### Examples
+### Slash commands
 
 ```bash
-# Code review
 /codex review src/auth.ts
-
-# Explain code
 /codex explain src/utils/parser.js
-
-# Generate tests
 /codex test src/services/payment.ts
-
-# Fix a bug
 /codex fix the race condition in the worker queue
-
-# Freeform tasks
-/codex refactor the database module to use connection pooling
-/codex create a REST API endpoint for user registration
+/codex refactor the database module
 ```
 
-### Direct sub-skill invocation
+### Natural language
 
-Each sub-skill can also be invoked directly:
-
-```bash
-/codex-review src/auth.ts
-/codex-explain src/utils/parser.js
-/codex-test src/services/payment.ts
-/codex-fix the login timeout error
 ```
+ask codex to review src/auth.ts
+have codex explain the parser
+let codex write tests for the payment module
+use codex to fix the login bug
+codex should refactor the db module
+send this to codex
+```
+
+## Subcommands
+
+| Intent | Slash | Natural language examples |
+|--------|-------|--------------------------|
+| Review | `/codex review` | "ask codex to check this code", "codex find bugs in" |
+| Explain | `/codex explain` | "have codex walk me through", "codex how does this work" |
+| Test | `/codex test` | "codex write tests for", "have codex add specs" |
+| Fix | `/codex fix` | "ask codex to debug", "codex solve this bug" |
+| Freeform | `/codex <anything>` | "ask codex to refactor", "let codex handle this" |
 
 ## Architecture
 
 ```
 skills/
-├── codex/           ← Orchestrator: parses subcommand and routes
+├── codex/           ← Orchestrator: detects intent, routes to sub-skills
 ├── codex-review/    ← Code review via Codex
 ├── codex-explain/   ← Code explanation via Codex
 ├── codex-test/      ← Test generation via Codex

@@ -1,22 +1,29 @@
 ---
 name: codex-test
-description: Use OpenAI Codex to generate tests for a file or module. Trigger on "/codex test" or "/codex-test".
+description: Use OpenAI Codex to generate tests for a file or module. Triggers on "/codex test", "/codex-test", or natural language like "ask codex to write tests", "have codex add specs", "codex cover this with tests", "codex generate tests for".
 ---
 
 # Codex Test
 
 Delegates a test generation task to OpenAI Codex CLI in full-auto mode.
 
-## Invocation
+## Trigger Patterns
 
+### Slash commands
 ```
 /codex test <file_path|description>
 /codex-test <file_path|description>
 ```
 
+### Natural language
+- "ask codex to write tests for src/services/payment.ts"
+- "have codex add specs for the auth module"
+- "codex cover this with tests"
+- "codex generate tests for the API endpoints"
+
 ## Workflow
 
-1. Take the target from `$ARGUMENTS` (a file path or description)
+1. Take the target from `$ARGUMENTS`
 2. Build the prompt: `"Write comprehensive tests for this code, covering edge cases, error handling, and happy paths: <target>"`
 3. Execute:
    ```bash
