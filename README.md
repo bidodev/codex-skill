@@ -16,23 +16,37 @@ npx skills install bidodev/codex-skill
 ## Usage
 
 ```
-/codex <prompt>
+/codex [subcommand] <prompt|file_path>
 ```
+
+### Subcommands
+
+| Subcommand | Description | Example |
+|------------|-------------|---------|
+| `review` | Code review — find bugs, suggest improvements | `/codex review src/auth.ts` |
+| `explain` | Explain how code works | `/codex explain src/utils/parser.js` |
+| `test` | Generate tests for a file or module | `/codex test src/services/payment.ts` |
+| `fix` | Fix a bug or issue | `/codex fix the login timeout error` |
+| *(none)* | Freeform — pass any task directly to Codex | `/codex refactor the db module` |
 
 ### Examples
 
 ```bash
+# Code review
+/codex review src/auth.ts
+
+# Explain code
+/codex explain src/utils/parser.js
+
+# Generate tests
+/codex test src/services/payment.ts
+
 # Fix a bug
-/codex fix the authentication bug in src/auth.ts
+/codex fix the race condition in the worker queue
 
-# Refactor code
+# Freeform tasks
 /codex refactor the database module to use connection pooling
-
-# Generate code
 /codex create a REST API endpoint for user registration
-
-# Ask a question
-/codex explain how the payment processing pipeline works
 ```
 
 ## Why This Instead of MCP?
